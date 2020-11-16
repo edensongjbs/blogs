@@ -1,23 +1,23 @@
-# Async Testing Techniques for Redux-Thunk (Jest)
+# Async Testing for Redux-Thunk (with Jest and Chuck Norris)
 
 ## Talk about importance of TDD
 
-When I'm working on a personal React project, I'm always tempted to cut to the chase and get right to coding the fun stuff: seeing my app concept come to life.  I'll try and get a quick UI up and running, verify that it's behaving as expected in the browser and call it a day.  Often times (especially with a simple project), this is fine.  There are those other times when things break unexpectedly and I'll be stuck digging back through my code in paintstaking detail trying to remind myself how a particular piece of state is being updated or how a particular component is being used, all the while cursing myself for not starting out the projecrt with a more rigorous test-driven approach.
+When I'm working on a personal React project, I'm always tempted to cut to the chase and get right to coding the fun stuff: seeing my app concept come to life.  I'll try and get a quick UI up and running, verify that it's behaving as expected in the browser and call it a day.  Often times (especially with a simple project), this is fine.  There are those other times when things break unexpectedly and I'll be stuck digging back through my code in paintstaking detail trying to remind myself how a particular piece of state is being updated or how a particular component is being used, all the while cursing myself for not starting out the project with a more rigorous test-driven approach.
 
-Test driven development (TDD) always feels like a lift in the beginning stages of a project, but can end up saving so much time down the road.  It forces us to do the mental work up front, more rigorously planning the different components and their responsibilities, how these components will use state and how that state will be updated.  It lets us determine what is essential to the structure and function of our app, while abstracting away the implementation details that we can refactor as we go.  It provides us a failsafe, letting us know immediately if we modifeid something that's going to break the app.   Beyond this, it makes collaboration easier and more successful.  Being able to successfully test an app requires that we're able to clearly understand and communicate how the app should be working.  
+Test driven development (TDD) always feels like a lift in the beginning stages of a project, but can end up saving so much time down the road.  It forces us to do the mental work up front, more rigorously planning the different components and their responsibilities, how these components will use state and how that state will be updated.  It lets us determine what is essential to the structure and function of our app, while abstracting away the implementation details that we can refactor as we go.  It provides us a failsafe, letting us know immediately if we modifeid something that's going to break the app.   Beyond this, it makes collaboration and communication easier in the longrun.  Being able to successfully test an app requires that we're able to clearly understand, codify, and communicate how the app should be working.  
 
 ## Challenges of Asynchronous Testing
 
-For testing in React, I've primarily been using the Jest testing framework (which comes pre-installed in any new project created with `npx create-react-app`).  The [API Docs]() are well-written and the syntax (describe, test, expect) felt quite familiar coming from Rspec in Ruby.  Nevertheless, testing JavaScript poses some interesting challenges, especially when it comes to handling asynchronous functions.  While there are endless examples of those in any given JS/React project, I'm going to focus this article on how to do asynchronous testing with Redux-Thunk action creators, something I've found particularly challenging to wrap my head around.
+For testing in React, I've primarily been using the Jest testing framework (which comes pre-installed in any new project created with `npx create-react-app`).  The [API Docs]() are well-written and the syntax (describe, test, expect) felt quite familiar to me coming from Rspec in Ruby.  Nevertheless, testing JavaScript poses some interesting challenges, especially when it comes to handling asynchronous functions.  While there are endless examples of those in any given JS/React project, I'm going to focus this article on how to do asynchronous testing with Redux-Thunk action creators, something I've found particularly challenging to wrap my head around.
 
-If you're unfamiliar with Redux-Thunk, I'd recommend checking out [this post](https://www.digitalocean.com/community/tutorials/redux-redux-thunk#:~:text=Redux%20Thunk%20is%20a%20middleware,asynchronous%20operations%20have%20been%20completed.).  In short, Redux-Thunk allows for dispatching an asynchronous action, by letting you call an action creator that returns a function (instead of an action object), into which the store's dispatch method is passed.  The passed dispatch method is then used to dispatch standard synchronous action objects from within the function (synchronously or asynchronously).
+If you're unfamiliar with Redux-Thunk, I'd recommend checking out [this post](https://www.digitalocean.com/community/tutorials/redux-redux-thunk#:~:text=Redux%20Thunk%20is%20a%20middleware,asynchronous%20operations%20have%20been%20completed.).  In short, Redux-Thunk allows for dispatching an asynchronous action, by letting you call an action creator that returns a function (instead of an action object), into which the store's dispatch function is passed.  The passed dispatch function is then used to dispatch standard synchronous action objects from within the function (either synchronously or asynchronously).
 
-To help me demonstrate some Redux-Thunk testing techniques in Jest, I'll call upon everyone's favorite hyperbolic tough guy, Chuck Norris to lend a hand...
+To help me demonstrate some Redux-Thunk testing techniques in Jest, I'll call upon everyone's favorite hyperbolic tough guy, Chuck Norris, to lend a hand...
 
 ## The App
 
 I've build an exceedingly simple React/Redux app to demo our tests (you can find the GitHub repo [here]()).  In short, the app is a front-end for the [ChuckNorris.io API](https://api.chucknorris.io/), where the user will click a button and a random Chuck Norris 
-"fact" will be displayed on the screen.  The user can get up to 5 Chuck Norris "facts" before being cut off and being forced to refresh.  Though it's overkill in the extreme to be using Redux for such a simple app, it seems appropriately in the spirit of Chuck Norris and certainly a good opportunity to demo testing techniques without too many complicating factors. 
+"fact" will be displayed on the screen.  Important to our implementation is the detail that the user can only fetch up to 5 Chuck Norris "facts" before being cut off and being forced to refresh the page.  Though it's overkill in the extreme to be using Redux for such a simple app, it seems appropriately in the spirit of Chuck Norris and certainly a good opportunity to demo testing techniques without too many complicating factors. 
 
 **Show the App GIF**
 
@@ -32,6 +32,11 @@ After creating a new react app (via `npx create-react-app [app-name]`), you'll n
 `npm install redux react-redux redux-thunk` ( since the app uses redux and redux-thunk)
 
 ## Setting Up the App
+
+I've set up the App to render two components: a FetchButton component, that the user will click in order to fetch the new Chuck Norris "fact" and the Joke component, which will display the fact if it is successfully fetched.  The Joke button is purely presentational and receives the joke passed down in props from our App component.  However, the FetchButton component has access to our Redux store and will invoke our Redux-Thunk action creator fetchJoke, when the button is clicked.  
+
+`paste in the various components`
+
 
 Talk about how the App works.  What connects to what.  How state is used.  Various/Reducers/Action creators etc.  Talk about this being an integration test.  It's primarily testing our action creator, but by doing so also testing our reducers.  Abstracts out implementation details in case we want to refactor.
 
