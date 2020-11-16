@@ -136,14 +136,30 @@ If we make a mistake and set up the synchronous test block to run asynchronously
 
 ## Step 4 - Coding Out the Action Creator
 
+After defining the fetchJoke function, you can verify that all tests are currently failing.  It's important for us to verify that the tests are failing as expected so that we don't wind up with faulty tests that can lead to us assuming our code is working properly when it isn't!
 
+`paste in stub`
 
-## Return a Promise in the test 
+Here's the fully coded fetchJoke function for reference:
 
-Know when to return a promise and when not to.  Certain tests (and certain cases in action creator) require Async and some do not.  Explain why.
+`paste in`
 
-* Also must make sure to return the promise from action creator!!!
+As I mentioned in the prior section, please note when a Promise is being returned from inside the function.  Neglecting this inadvertently can lead to a world of pain, hence the ALL CAPS!
 
-* Talk about how some tests must be set up asynchronously and some synch and why tests will fail unexpectedly if this is not done.  Requires implementation planning.
+## Final Step - Pass those tests
 
-## Coding our Action Creator to Pass the tests
+Time to type `npm test` and look at all that glorious green!
+
+## Additional Resources:
+
+There's a lot more to testing React and Redux, and I enthusiastically recommend checking out Bonnie's thorough Udemy course:
+
+To build your Chuck Norris adjacent application, check out:
+ChuckNorris.io
+
+API Docs for:
+React
+Redux
+Redux-Thunk
+Jest
+fetch-mock
