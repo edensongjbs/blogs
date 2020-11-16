@@ -41,9 +41,9 @@ I set up our root Reducer to manage 3 distinct pieces of state: joke (the joke f
 
 `paste in various reducers`
 
+At the heart of the App's functionality, is a single aynchronous action creator called fetchJoke, which returns a function into which the store's dispatch function is passed.  This function will be responsible for dispatching other actions to our reducer.  It's very important to think through the logic of how these actions will be dispatched, as certain actions may be synchronous and others asynchronous, which will affect how we must structure our tests.
 
-
-Talk about how the App works.  What connects to what.  How state is used.  Various/Reducers/Action creators etc.  Talk about this being an integration test.  It's primarily testing our action creator, but by doing so also testing our reducers.  Abstracts out implementation details in case we want to refactor.
+Let's jump to setting up those tests.  For the purpose of this article, we're mostly concerned with setting up tests for our fetchJoke action creator.  This is technically an integration test, since it will be utilizing our reducers as well, but I decided to place it in our actions folder and name it accordingly since it's primary purpose is to test the action creator, the main logical component of our app.
 
 Here are our tests:
 
