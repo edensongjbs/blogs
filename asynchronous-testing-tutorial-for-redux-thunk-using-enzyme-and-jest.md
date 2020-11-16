@@ -37,6 +37,11 @@ I've set up the App to render two components: a FetchButton component, that the 
 
 `paste in the various components`
 
+I set up our root Reducer to manage 3 distinct pieces of state: joke (the joke fetched from the API), jokeCount (the number of jokes that have fetched from the API since the program launched, which cannot exceed 5), tooMany (initially set to false, but set to true once the user attempts to fetch more jokes than allowed).
+
+`paste in various reducers`
+
+
 
 Talk about how the App works.  What connects to what.  How state is used.  Various/Reducers/Action creators etc.  Talk about this being an integration test.  It's primarily testing our action creator, but by doing so also testing our reducers.  Abstracts out implementation details in case we want to refactor.
 
