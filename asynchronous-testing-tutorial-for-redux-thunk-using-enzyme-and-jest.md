@@ -104,7 +104,37 @@ While our actual app relies upon fetching values from the ChuckNorris.io API, we
 
 ## Step 3 - Writing out the Test Blocks
 
+To test each of our four conditions, we start by creating our test store and initializing it with a state to support the conditions that we're aiming to test.  Here, you can see the appopriate initial state for each of our conditions:
 
+`paste in`
+
+We can also write out our expectations for each of the four test cases:
+
+`paste in`
+
+There are two things to note here:  
+
+Firstly, these tests are not yet ready since we haven't actually dispatched our action creator.  Unless the tests are expecting our the state to be unchanged (ie) our store's intial state), these tests will fail.  
+
+Secondly, note how specific the expectation statements are for each case.  There are specific strings that will need to be returned in our reducer in order to get these tests to pass.  I wanted to make doubly sure that the logic in our action creator is behaving as expected, so I'm asking for a different joke state depending on whether the limit is being reached on this call or had already been reached on a previous call (ie) whether the tooMany piece of state had already been toggled from false to true).  This is fussy, but I thought it was important for ensuring that we cover all our cases.  
+
+Before our tests are finished, we need to determine what is happening between our store initialization and our expectation.  It's very important for us to have a clear sense of how our async action creator will be working, because this will affect where we place our expect statement.  In the case of our fetchJoke action creator, different conditions will cause our actions to be synchronous or asynchronous.  
+
+Why is this exactly?  We want our action creator to first check the tooMany piece of state before making a fetch request to the API.  It will first determine if the user has already reached the request limit.  We'll also want to check a case where the jokeCount piece of state is at the limit, but the tooMany piece of state has not yet been toggled to true.  In each of these cases, we want our app to NOT send a fetch request to the API, and instead dispatch a simple action object sychronously.  However, In the event that the jokeCount IS under the limit set by our app, we will make the asynchronous fetch request to the server (via the fetch API), and dispatch the simple 'SET_JOKE' action object only after receiving a response from the server.
+
+For our synchronous cases, we can simply setup our dispatch and expectation statements normally:
+
+`paste in this case`
+
+However, for our asynchronous cases, we must set up our test so that our dispatch returns a Promise.  We can place our expect statement inside a function that we pass the chained .then() function.  The expect statement will run once the Promise has resolved.
+
+`paste in this case`
+
+IMPORTANT:  In order for this to actually work, we must make sure that we actually set up our action creator to return a promise, otherwise we'll run into errors.  Check out the action creator code below for reference.
+
+If we make a mistake and set up the synchronous test block to run asynchronously, we'll run into the above error, where a Promise is not returned from our action creator, and there is no .then function to invoke.  If we do the opposite and set up our asynchronous test block to run synchronously, it will simply jump to our expect statement before the asynchronous code has a chance to run and the test will (most likely) fail.
+
+## Step 4 - Coding Out the Action Creator
 
 
 
