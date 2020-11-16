@@ -33,24 +33,19 @@ After creating a new react app (via `npx create-react-app [app-name]`), you'll n
 
 ## Setting Up the App
 
+## The Components
+
 I've set up the App to render two components: a FetchButton component, that the user will click in order to fetch the new Chuck Norris "fact" and the Joke component, which will display the fact if it is successfully fetched.  The Joke button is purely presentational and receives the joke passed down in props from our App component.  However, the FetchButton component has access to our Redux store and will invoke our Redux-Thunk action creator fetchJoke, when the button is clicked.  
 
 `paste in the various components`
+
+## The Reducers
 
 I set up our root Reducer to manage 3 distinct pieces of state: joke (the joke fetched from the API), jokeCount (the number of jokes that have fetched from the API since the program launched, which cannot exceed 5), tooMany (initially set to false, but set to true once the user attempts to fetch more jokes than allowed).
 
 `paste in various reducers`
 
-At the heart of the App's functionality, is a single aynchronous action creator called fetchJoke, which returns a function into which the store's dispatch function is passed.  This function will be responsible for dispatching other actions to our reducer.  It's very important to think through the logic of how these actions will be dispatched, as certain actions may be synchronous and others asynchronous, which will affect how we must structure our tests.
-
-Let's jump to setting up those tests.  For the purpose of this article, we're mostly concerned with setting up tests for our fetchJoke action creator.  This is technically an integration test, since it will be utilizing our reducers as well, but I decided to place it in our actions folder and name it accordingly since it's primary purpose is to test the action creator, the main logical component of our app.
-
-Here are our tests:
-
-`paste in describe, and test without coding out the tests`
-
-
-### Setting up the Store
+## Configuring and Connecting the Store to our App
 
 You can refer to the [Redux-Thunk API docs]() for additional details on configuring the redux thunk middleware, but make sure to export your configured store so that it can be accessed for both testing and development/production purposes.  This is how I approached my storeFactory.
 
@@ -79,16 +74,37 @@ ReactDOM.render(
   document.getElementById('root')
 )`
 
+
+## Setting Up The Action Creator and Tests
+
+At the heart of the App's functionality, is a single aynchronous action creator called fetchJoke, which returns a function into which the store's dispatch function is passed.  This function will be responsible for dispatching other actions to our reducer.  It's very important for us to think through the logic of how these actions will be dispatched, as certain actions may be synchronous and others asynchronous, which will affect how we must structure our tests.
+
+Let's jump now to setting up those tests.  For the purpose of this article, we're mostly concerned with setting up tests for our fetchJoke action creator.  This is technically an integration test, since it will be utilizing our reducers as well, but I decided to place it in our actions folder and name it accordingly since it's primary purpose is to test the action creator, the main logical component of our app.
+
+Here are our test descriptions:
+
+`paste in describe, and test without coding out the tests`
+
+Before we can code out the test blocks, we need to do some preliminary setup in our `./src/actions/index.test.js` file:
+
+## Step 1 - Create a Test Store
+
+Since we have already created a storeFactory function, we can just import that and use it to create a mock store for our tests.
+
 in .src/actions/index.test.js (creating a mock store for our tests)
 
 `import createTestStore from '../configureStore'`
 
 
-## Mocking the API Call
+## Step 2 - Mocking the API Call
 
-While our actual app relies upon fetching values from the ChuckNorris.io API, we want to test our app in isolation.  So, we'll need to sub in a mock fetch in place of the real fetch in the action creator.  We can do this purely in the test file without making any changes to our actual action creator code (ie) the app never needs to know that it's not getting a real API response).  We can do this with a useful tool call fetch-mock (that we've already installed as a dependency).  You can configure it as so:
+While our actual app relies upon fetching values from the ChuckNorris.io API, we want to test our app in isolation.  So, we'll need to sub in a mock fetch in place of the real fetch in the action creator.  We can do this purely in the test file without making any changes to our actual action creator code (ie) the app never needs to know that it's not getting a real API response).  We can do this with a useful tool call fetch-mock (that we've already installed as a dependency).  You can configure it like this:
 
 `paste in the beforeEach and afterEach`
+
+## Step 3 - Writing out the Test Blocks
+
+
 
 
 
