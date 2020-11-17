@@ -40,6 +40,75 @@ Let's take these 3 basic features I listed above:
 3) Type-Checking - JSDoc provides easy to implement lightweight type-checking without the need to use TypeScript.  By configuring your IDE for type-checking, any errors with mismatched types (assigning a value with the wrong type to a variable, passing a parameter with the wrong type etc.) will be flagged immediately.  This is a helpful warning, allowing us to easily detect issues that may break our code.  However, the code will still run as usual if we ignore the warnings and throw errors (if any) at runtime.
 
 
+## So, How Do We Use It?!
+
+As I mentioned above, the [Official Docs](https://jsdoc.app/) are pretty straightforward and thorough, so I'll keep this section to some bare essentials and then highlight some of my own favorite features.
+
+1) Install & Configure
+
+JSDoc is easy to set up as a development dependency in Node.
+
+Simply, type `npm i -D jsdoc` in your project's root directory
+
+JSDoc will run with a default configuration, but if you'd like to change any of these default options, you'll want to create JSON configuration file in the root directory called "jsdoc.json".  Here is my configuration, which deviates in a few ways from the default that can be found [here](https://jsdoc.app/about-configuring-jsdoc.html).  The link also provides details on other alternate configuration options:
+
+```
+{
+    "source": {
+        "include": ["src"],
+        "includePattern": ".js$",
+        "excludePattern": "(node_modules/|docs)"
+    },
+    "plugins": [],
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true
+    },
+    "opts": {
+        "recurse": true,
+        "destination": "./docs/",
+        "tutorials": "./tutorials",
+        "readme": "./readme.md"
+    }
+}
+```
+
+We'll also want to configure our project's package.json with a custom node script to generate our docs:
+
+```
+"scripts": {
+    "docs": "jsdoc -c jsdoc.json"
+  }
+```
+
+2) Some Basic Block Tags
+
+Writing your own JSDoc comments is easy!  In VSCode, you simply need to type '/\*\*' and the IDE will generate a full JSDoc comment block.  If you hit 'enter' from inside the block, new comment lines (preceded with the '*' character will) will be automatically generated as well.
+
+I've written some code below to illustrate some available tags and how to use them.  Note that the block comments are JSDoc comments pertaining the demo domain where the line comments are my annotations of the JSDoc comments.  Apologies if that's confusing!!
 
 
 
+
+3) Type-Checking
+
+Below, I'm going to illustrate using some type-tags.  Similar to the last section, the my comments are annotating the actual JSDoc block comments.
+
+As you can see, when I violate one of my typing "rules," VSCode will flag the error with a underline squiggle and provide a helpful error message pertaining the specific violation.
+
+4) Generate the Docs
+
+
+
+Those are probably the most essential features of JSDoc, but I've included a few of my favorite features below:
+
+
+5) In-line blocks for additional resources
+
+
+
+6) Support Markdown Syntax in Comments!
+
+
+
+7) Extend the standard to React with Prop-Types and Better-Docs
