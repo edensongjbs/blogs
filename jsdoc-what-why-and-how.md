@@ -33,7 +33,12 @@ JSDoc is both a markup language and a documentation generator. By following cert
 
 Let's take these 3 basic features I listed above:
 
-1) Commenting Convention - JSDoc provides a standardized syntax for writing legible and consistent comments.  The block tags ('@') guide us to provide important important information about the full project, the file we're looking at, and the assorted variables, functions, objects, etc. contained therein.  The tags are intuitive and easy to learn and the official [API Documentation](https://jsdoc.app/) describes out the tags in detail.  While the tags help guide us to provide useful information, the IDE syntax highlighting helps make these comments easier to read than standard JS comments.
+1) Commenting Convention - JSDoc provides a standardized syntax for writing legible and consistent comments.  The block tags ('@') guide us to provide important important information about the full project, the file we're looking at, and the assorted variables, functions, objects, etc. contained therein.  The tags are intuitive and easy to learn and the official [API Documentation](https://jsdoc.app/) describes the tags in detail.  While the tags help guide us to provide useful information, the IDE syntax highlighting helps make these comments easier to read than standard JS comments.
+
+2) Automatically Generate API Docs - This is huge!  I've always struggled to write clear documentation for my projects and JSDoc really takes the guess-work out of it, enforces concision and clarity, and most importantly builds the Doc pages for us.  We can configure JSDoc with a node script to generate our documents with a single line of code: `npm run docs`.  (I'll discuss this further in the "How" section below)
+
+3) Type-Checking - JSDoc provides easy to implement lightweight type-checking without the need to use TypeScript.  By configuring your IDE for type-checking, any errors with mismatched types (assigning a value with the wrong type to a variable, passing a parameter with the wrong type etc.) will be flagged immediately.  This is a helpful warning, allowing us to easily detect issues that may break our code.  However, the code will still run as usual if we ignore the warnings and throw errors (if any) at runtime.
+
 
 
 
